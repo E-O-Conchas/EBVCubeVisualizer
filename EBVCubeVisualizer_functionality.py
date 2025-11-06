@@ -332,7 +332,6 @@ class maskAndFunctionality(base_class, ui_class):
 
         self.text_info.moveCursor(QTextCursor.Start)
 
-
     def displayGlobalAttributes(self, ncFile): 
         """Display global attributes of the NetCDF file with custom formatting."""
         self.text_info.append(f"<b><font size=5>File name: {os.path.basename(ncFile.filepath())}</font></b>") # File name of the NetCDF file 
@@ -420,14 +419,6 @@ class maskAndFunctionality(base_class, ui_class):
                 metric_variable = ncFile.groups[metric_actual_name]
                 metric_standard_name = metric_variable.getncattr('standard_name') if 'standard_name' in metric_variable.ncattrs() else metricSelected
 
-            # Retrieve the standard name for the scenario (if scenarios are enabled)
-            if self.cbox_scenarios.isEnabled():
-                scenario_actual_name = self.scenario_name_map.get(scenarioSelected, scenarioSelected)
-                scenario_variable = ncFile.groups[scenario_actual_name]
-                scenario_standard_name = scenario_variable.getncattr('standard_name') if 'standard_name' in scenario_variable.ncattrs() else scenarioSelected
-            else:
-                scenario_standard_name = None
-            
             # Retrieve the standard name for the scenario (if scenarios are enabled)
             scenario_standard_name = None
             if self.cbox_scenarios.isEnabled():
