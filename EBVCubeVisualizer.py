@@ -164,12 +164,12 @@ class EBVCubeVisualizer:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""	
         for action in self.actions:
-            self.iface.removePluginMenu(
-                self.tr(u'&EBVCubeVisualizer'),
-                action)
+            self.iface.removePluginMenu(self.tr(u'&EBVCubeVisualizer'), action)
             self.iface.removeToolBarIcon(action)
-        else :
-            self.toolbar.removeAction(action)
+        self.actions.clear()
+        if self.toolbar:
+            self.iface.mainWindow().removeToolBar(self.toolbar)
+            self.toolbar = None
            
     #we create a function to call the mask       
     def callMask(self):

@@ -307,7 +307,6 @@ class maskAndFunctionality(base_class, ui_class):
 
         self.text_info.moveCursor(QTextCursor.Start)
 
-
     def displayGlobalAttributes(self, ncFile): 
         """Display global attributes of the NetCDF file with custom formatting."""
         self.text_info.append(f"<b><font size=5>File name: {os.path.basename(ncFile.filepath())}</font></b>") # File name of the NetCDF file 
