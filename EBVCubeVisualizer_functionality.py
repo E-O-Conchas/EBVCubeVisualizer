@@ -434,7 +434,8 @@ class maskAndFunctionality(base_class, ui_class):
             
 
             # Create a temporary NetCDF file with the subset of data
-            temp_nc_path = tempfile.mktemp(suffix='.nc')
+            fd, temp_nc_path = tempfile.mkstemp(suffix='.nc')
+            os.close(fd)
             with nc.Dataset(temp_nc_path, 'w', format='NETCDF4') as temp_nc:
                 temp_nc.createDimension('lat', len(ncFile.dimensions['lat']))
                 temp_nc.createDimension('lon', len(ncFile.dimensions['lon']))
