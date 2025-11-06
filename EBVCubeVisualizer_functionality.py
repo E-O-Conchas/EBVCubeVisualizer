@@ -395,13 +395,6 @@ class maskAndFunctionality(base_class, ui_class):
                 metric_standard_name = metric_variable.getncattr('standard_name') if 'standard_name' in metric_variable.ncattrs() else metricSelected
 
             # Retrieve the standard name for the scenario (if scenarios are enabled)
-            if self.cbox_scenarios.isEnabled():
-                scenario_variable = ncFile.groups[scenarioSelected]
-                scenario_standard_name = scenario_variable.getncattr('standard_name') if 'standard_name' in scenario_variable.ncattrs() else scenarioSelected
-            else:
-                scenario_standard_name = None
-            
-            # Retrieve the standard name for the scenario (if scenarios are enabled)
             scenario_standard_name = None
             if self.cbox_scenarios.isEnabled():
                 scenario_variable = ncFile.groups[scenario_actual_name]
