@@ -461,14 +461,25 @@ class maskAndFunctionality(base_class, ui_class):
                 return  
             
             # Get CRS from the NetCDF file
-            crs_wkt = None
+            crs = None
             if 'crs' in ncFile.variables:
                 crs_var = ncFile.variables['crs']
-                if 'spatial_ref' in crs_var.ncattrs():
-                    crs_wkt = crs_var.getncattr('spatial_ref')
+                wkt = crs_var.getncattr('spatial_ref') if 'spatial_ref' in crs_var.ncattrs() else None
+                if wkt:
                     crs = QgsCoordinateReferenceSystem()
-                    crs.createFromWkt(crs_wkt)
-                    rasterLayer.setCrs(crs)
+                    crs.createFromWkt(wkt)
+                    
+            # Attribute grid_mapping in ebv_cube       
+            if crs is None and 'ebv_cube' in data_variable.group().variables:
+                gm_name = data_variable.getncattr('grid_mapping') if 'grid_mapping' in data_variable.ncattrs() else None
+                if gm_name and gm_name in data_variable.group().variables:
+                    gm = data_variable.group().variables[gm_name]
+                    wkt = gm.getncattr('spatial_ref') if 'spatial_ref' in gm.ncattrs() else None
+                    if wkt:
+                        crs = QgsCoordinateReferenceSystem()
+                        crs.createFromWkt(wkt)
+            if crs:
+                rasterLayer.setCrs(crs)
 
             dp = rasterLayer.dataProvider()
             band = 1
